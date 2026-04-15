@@ -192,8 +192,7 @@ source ~/catkin_ws/devel/setup.bash
 ├── docs/                                
 │   ├── images/                           
 │   │   ├── map_clean.jpeg
-│   │   └── navigation_demo.gif
-│   └── PROJECT_REPORT.pdf         
+│   │   └── navigation_demo.gif       
 ├── .gitignore                            
 ├── README.md                             
 └── LICENSE
