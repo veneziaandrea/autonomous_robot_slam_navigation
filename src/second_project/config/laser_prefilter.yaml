@@ -1,0 +1,8 @@
+scan_filter_chain:
+- name: speckle_filter
+  type: laser_filters/LaserScanSpeckleFilter #remove outliers
+  params:
+    filter_type: 1 # i don't remeber which type is it
+    max_range: 25.0 # max range of lidar, just to be sure to check every point
+    max_range_difference: 1.0 # adjustable, i tried 2 meters just as a beginning
+    filter_window: 2 # consider the difference between one point and the previous one

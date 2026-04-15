@@ -1,0 +1,56 @@
+<launch>
+
+      <param name="use_sim_time" value="true"/>
+
+      <node pkg="tf" type="static_transform_publisher" name="base_to_body" 
+            args="0 0 0 0 0 0 base_link body_link 100" />      
+      <node pkg= "tf" type= "static_transform_publisher" name= "base_to_front_lidar" 
+            args= "0.3 0 -0.115 0 0 3.14159 base_link sick_front 1000" />
+      <node pkg= "tf" type= "static_transform_publisher" name= "base_to_back_lidar" 
+            args= "-0.3 0 -0.115 0 3.14159 0 base_link sick_back 1000" />
+
+      <node pkg="second_project" type="odom_pub" name="odom_pub" output= "screen"/>
+
+      <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+            name="laser_filter_front">
+      <rosparam command="load" file="$(find second_project)/config/laser_prefilter.yaml" /> <!--outlier removal-->
+      <remap from="/scan" to="/scan_front" />
+      <remap from="/scan_filtered" to="/scan_front_filtered"/>
+      </node>
+
+      <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+            name="laser_filter_back">
+      <rosparam command="load" file="$(find second_project)/config/laser_prefilter.yaml" /> <!--outlier removal-->
+      <remap from="/scan" to="/scan_back" />
+      <remap from="/scan_filtered" to="/scan_back_filtered"/>
+      </node>
+
+      <node pkg="ira_laser_tools" type="laserscan_multi_merger" name="laserscan_multi_merger">
+            <param name="destination_frame" value="base_link"/>
+            <param name="scan_destination_topic" value="/sum_scan"/>
+            <param name="laserscan_topics" value ="/scan_front_filtered /scan_back_filtered" />
+            <param name="range_min" value="0.3"/> <!-- da regolare in base alla qualità delle mappe   -->
+            <param name="tf_broadcast_timeout" value="0.05"/>
+      </node>
+
+      <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+            name="laser_filter_sum">
+      <rosparam command="load" file="$(find second_project)/config/laser_postfilter.yaml" /> <!--outlier removal-->
+      <remap from="/scan" to="/sum_scan" />
+      <remap from="/scan_filtered" to="/sum_scan_filtered"/>
+      </node>
+
+      <node pkg="slam_toolbox" type="async_slam_toolbox_node" name="slam_toolbox" output="screen">
+            <rosparam command="load" file="$(find second_project)/config/slam_toolbox_params.yaml" />
+            <!-- <param name="debug_logging" value="true"/>   -->
+            <param name="scan_topic" value="/sum_scan_filtered"/>  <!-- Use the merged scan topic -->
+            <param name="odom_frame" value="odom"/>  <!-- Your odometry frame -->
+            <param name="base_frame" value="base_link"/>  <!-- Your base frame -->
+            <param name="map_frame" value="map"/>  <!-- Your map frame -->
+            <!-- <remap from="scan" to="/merged_scan"/> 
+            <remap from="odom" to="/odom" />  Your odometry topic -->
+      </node>
+
+      <node name="rviz" pkg="rviz" type="rviz" args="-d $(find second_project)/rviz/mapping.rviz" />
+
+</launch>
