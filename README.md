@@ -177,6 +177,7 @@ source ~/catkin_ws/devel/setup.bash
 ---
 
 ## Repository Structure
+```bash
 4_wheeled_robot_slam_navigation/
 ├── src/                                  
 │   └── second_project/                   
@@ -195,7 +196,8 @@ source ~/catkin_ws/devel/setup.bash
 │   └── PROJECT_REPORT.pdf         
 ├── .gitignore                            
 ├── README.md                             
-└── LICENSE  
+└── LICENSE
+```
                              
 **Note:** This repository does not include `build/` and `devel/` folders or `.bag` files, as per project requirements. No absolute paths are used in the code.
 
