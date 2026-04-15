@@ -233,13 +233,6 @@ This project highlights:
 
 --- 
 
-## Documentation
-For a more in-depth understanding of design decisions, node architecture, algorithms used, and detailed results, please refer to the **Project Technical Report**:
-
-* [Project Technical Report](docs/PROJECT_REPORT.pdf)
-
----
-
 ## Future Work
 
 - Migration to ROS2 (Humble / Iron)
