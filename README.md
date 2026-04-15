@@ -179,7 +179,7 @@ source ~/catkin_ws/devel/setup.bash
 ## Repository Structure
 4_wheeled_robot_slam_navigation/
 ├── src/                                  
-│   └── second_project/                   
+│   └── autonomous_robot_slam_navigation/                   
 │       ├── src/                          
 │       ├── launch/                       
 │       ├── rviz/                         
